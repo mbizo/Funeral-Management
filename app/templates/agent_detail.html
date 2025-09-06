@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Agent: {{ agent.name }}</h3>
+<div class="row g-3">
+  <div class="col-md-3"><div class="card card-body"><div>Total Commission</div><h4>{{ '%.2f' % total_comm }}</h4></div></div>
+</div>
+
+<h5 class="mt-4">Policies</h5>
+<table class="table table-sm">
+  <thead><tr><th>Policy #</th><th>Holder</th><th>Status</th><th>Premium</th><th></th></tr></thead>
+  <tbody>
+    {% for p in agent.policies %}
+    <tr>
+      <td>{{ p.policy_number }}</td>
+      <td>{{ p.holder.full_name }}</td>
+      <td>{{ p.status }}</td>
+      <td>{{ '%.2f' % p.premium_amount }}</td>
+      <td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('core.policy_detail', policy_id=p.id) }}">Open</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

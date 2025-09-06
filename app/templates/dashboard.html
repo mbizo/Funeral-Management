@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dashboard</h3>
+<div class="row g-3">
+  <div class="col-md-2"><div class="card card-body"><div>Total Agents</div><h4>{{ total_agents }}</h4></div></div>
+  <div class="col-md-2"><div class="card card-body"><div>Total Policies</div><h4>{{ total_policies }}</h4></div></div>
+  <div class="col-md-2"><div class="card card-body"><div>Active</div><h4>{{ active_policies }}</h4></div></div>
+  <div class="col-md-2"><div class="card card-body"><div>Lapsed</div><h4>{{ lapsed_policies }}</h4></div></div>
+  <div class="col-md-2"><div class="card card-body"><div>New Today</div><h4>{{ new_today }}</h4></div></div>
+</div>
+<div class="mt-4 d-flex gap-2">
+  <a class="btn btn-primary" href="{{ url_for('core.policy_new') }}">Create Policy</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('core.policies') }}">View Policies</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('core.agents') }}">Agents</a>
+  <a class="btn btn-outline-secondary" href="{{ url_for('core.reports') }}">Reports</a>
+</div>
+{% endblock %}
