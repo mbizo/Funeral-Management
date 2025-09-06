@@ -1,1 +1,43 @@
+name: CI
 
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Set env (for tests only)
+        run: |
+          echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD || 'admin123' }}" >> $GITHUB_ENV
+          echo "SECRET_KEY=test_secret" >> $GITHUB_ENV
+          echo "DATABASE_URL=sqlite:///data.db" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: |
+          pytest -q
+
+      - name: Build artifact
+        run: |
+          zip -r funeral_assurance_build.zip . -x ".git*"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: funeral_assurance_build
+          path: funeral_assurance_build.zip
